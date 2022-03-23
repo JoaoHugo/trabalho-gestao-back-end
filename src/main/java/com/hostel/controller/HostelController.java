@@ -29,8 +29,9 @@ public class HostelController {
     
     @GetMapping(path = "guests")
     public ResponseEntity<List<Guest>> getGuests(){
-  
+    	
         return new ResponseEntity<>(simpleRepository.getAllGuests() ,HttpStatus.OK);
     }
+
  
 }
