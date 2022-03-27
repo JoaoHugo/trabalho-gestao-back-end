@@ -50,9 +50,13 @@ public class GuestController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<GuestDto> insert(@RequestBody GuestDto guestDto) throws ExistingGuestException{
-		
-		return new ResponseEntity<>(GuestConveter.toDto(guestService.insert(guestDto)),HttpStatus.CREATED);
+	public ResponseEntity<?> insert(@RequestBody GuestDto guestDto){
+		try {
+			GuestDto created = GuestConveter.toDto(guestService.insert(guestDto));
+			return new ResponseEntity<>(created ,HttpStatus.CREATED);
+		}catch(ExistingGuestException ex) {
+			return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+		}		
 	}
 	
 	@PutMapping("/{id}")
