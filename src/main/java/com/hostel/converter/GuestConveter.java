@@ -11,6 +11,7 @@ public class GuestConveter {
 		
 		boolean isNull = guestDto == null;
 
+		Long id = isNull ? null : guestDto.getId();
 		String firstName = isNull ? null : guestDto.getFirstName();
 		String lastName = isNull ? null : guestDto.getLastName();
 		String email = isNull ? null : guestDto.getEmail();
@@ -21,6 +22,7 @@ public class GuestConveter {
 		Boolean active = isNull ? null : guestDto.getActive();
 		
 		return GuestBuilder.create()
+				.setId(id)
 				.setFirstName(firstName)
 				.setLastName(lastName)
 				.setEmail(email)
@@ -37,6 +39,7 @@ public class GuestConveter {
 		
 		boolean isNull = guest == null;
 
+		Long id = isNull ? null : guest.getId();
 		String firstName = isNull ? null : guest.getFirstName();
 		String lastName = isNull ? null : guest.getLastName();
 		String email = isNull ? null : guest.getEmail();
@@ -47,6 +50,7 @@ public class GuestConveter {
 		Boolean active = isNull ? null : guest.getActive();
 		
 		return GuestDtoBuilder.create()
+				.setId(id)
 				.setFirstName(firstName)
 				.setLastName(lastName)
 				.setEmail(email)

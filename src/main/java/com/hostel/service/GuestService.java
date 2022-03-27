@@ -36,6 +36,7 @@ public class GuestService {
 	
 	public Guest insert(GuestDto guestDto) throws ExistingGuestException{
 		validateExistingGuest(guestDto.getFirstName(), guestDto.getLastName(), guestDto.getEmail());
+		guestDto.setActive(true);
 		return guestRepository.save(GuestConveter.toEntity(guestDto));
 	}
 	
