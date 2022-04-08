@@ -7,6 +7,7 @@ import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.hostel.converter.GuestConveter;
@@ -14,6 +15,7 @@ import com.hostel.data.Guest;
 import com.hostel.dto.GuestDto;
 import com.hostel.exception.ExistingGuestException;
 import com.hostel.repository.GuestRepository;
+import com.hostel.specification.GuestEntitySpecification;
 
 @Service
 public class GuestService {
@@ -29,9 +31,10 @@ public class GuestService {
 		return guestRepository.findById(id).orElseThrow(() -> new NotFoundException());
 	}
 	
-	public Page<Guest> searchPaged(Integer pageNumber, Integer pageSize){
+	public Page<Guest> searchPagedFilter(String firstName, Integer pageNumber, Integer pageSize){
 		Pageable pageable = PageRequest.of(pageNumber, pageSize);
-		return guestRepository.findAll(pageable);
+		Specification<Guest> specification = getFirstNameSpecification(firstName);
+		return guestRepository.findAll(specification, pageable);
 	}
 	
 	public Guest insert(GuestDto guestDto) throws ExistingGuestException{
@@ -63,6 +66,10 @@ public class GuestService {
 		if(guestRepository.findExistingGuest(firstName, lastName, email).isPresent()) {
 			throw new ExistingGuestException("Hóspede já cadastrado!");
 		}
+	}
+	
+	private Specification<Guest> getFirstNameSpecification(String firstName) {
+		return firstName == null ? Specification.where(null) : GuestEntitySpecification.firstNameEquals(firstName);
 	}
 	
 }

@@ -46,8 +46,8 @@ public class GuestController {
 	}
 	
 	@GetMapping("/search-paginated")
-	public ResponseEntity<Page<GuestDto>> searchPaginated(@RequestParam(name = "pageNumber", required = false, defaultValue = "0") Integer pageNumber, @RequestParam(name = "pageSize", required = false, defaultValue = "10") Integer pageSize){
-		Page<GuestDto> guests = guestService.searchPaged(pageNumber, pageSize).map(GuestConveter::toDto);
+	public ResponseEntity<Page<GuestDto>> searchPaginatedFilter(@RequestParam(name = "firstName", required = false) String firstName, @RequestParam(name = "pageNumber", required = false, defaultValue = "0") Integer pageNumber, @RequestParam(name = "pageSize", required = false, defaultValue = "10") Integer pageSize){
+		Page<GuestDto> guests = guestService.searchPagedFilter(firstName, pageNumber, pageSize).map(GuestConveter::toDto);
 		return new ResponseEntity<>(guests, HttpStatus.OK);
 	}
 	
